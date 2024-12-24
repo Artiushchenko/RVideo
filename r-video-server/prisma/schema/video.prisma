@@ -1,0 +1,75 @@
+model Video {
+  id       String @id @default(cuid())
+  publicId String @unique @map("public_id")
+
+  title       String
+  description String
+
+  thumbnailUrl  String @map("thumbnail_url")
+  videoFileName String @map("video_file_name")
+  maxResolution String @default("1080p") @map("max_resolution")
+
+  viewsCount Int     @default(0) @map("views_count")
+  isPublic   Boolean @default(false) @map("is_public")
+
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  channelId String  @map("channel_id")
+
+  likes    VideoLike[]
+  comments VideoComment[]
+  tags     VideoTag[]     @relation("video_tags")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  playlists Playlist[]
+
+  watchHistories WatchHistory[]
+
+  @@map("video")
+}
+
+model VideoComment {
+  id String @id @default(cuid())
+
+  text String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId String @map("video_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("video_comment")
+}
+
+model VideoLike {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId String @map("video_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([userId, videoId])
+  @@map("video_like")
+}
+
+model VideoTag {
+  id String @id @default(cuid())
+
+  name String @unique
+
+  videos Video[] @relation("video_tags")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("video_tag")
+}

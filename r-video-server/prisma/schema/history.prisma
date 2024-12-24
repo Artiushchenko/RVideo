@@ -1,0 +1,14 @@
+model WatchHistory {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId String @map("video_id")
+
+  watchedAt DateTime @default(now()) @map("watched_at")
+
+  @@unique([userId, videoId], name: "userId_videoId")
+  @@map("watch_history")
+}

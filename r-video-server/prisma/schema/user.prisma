@@ -1,0 +1,24 @@
+model User {
+  id String @id @default(cuid())
+
+  name     String?
+  email    String  @unique
+  password String
+
+  verificationToken String? @default(uuid()) @map("verification_token")
+
+  channel Channel? @relation("user_channel")
+
+  subscriptions Channel[]
+
+  comments VideoComment[]
+  likes    VideoLike[]
+
+  playlists    Playlist[]
+  watchHistory WatchHistory[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("user")
+}

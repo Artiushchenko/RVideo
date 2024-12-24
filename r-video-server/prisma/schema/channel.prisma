@@ -1,0 +1,22 @@
+model Channel {
+  id String @id @default(cuid())
+
+  slug        String  @unique
+  description String?
+
+  isVerified Boolean @default(false) @map("is_verified")
+
+  avatarUrl String? @map("avatar_url")
+  bannerUrl String? @map("banner_url")
+
+  user   User   @relation("user_channel", fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id")
+
+  videos      Video[]
+  subscribers User[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("channel")
+}
