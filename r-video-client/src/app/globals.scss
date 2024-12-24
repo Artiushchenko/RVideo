@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--sidebar-width: 15rem;
+}
+
+html,
+body {
+	@apply text-white bg-bg text-base;
+}
+
+@layer utilities {
+	.grid-5-cols {
+		@apply grid grid-cols-5 gap-6;
+	}
+}
+
+.volume-slider::-webkit-slider-thumb {
+	appearance: none;
+	width: 10.5px;
+	height: 10.5px;
+	background-color: white;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+	width: 10.5px;
+	height: 10.5px;
+	background-color: white;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.volume-slider::-ms-thumb {
+	width: 10.5px;
+	height: 10.5px;
+	background-color: white;
+	border-radius: 50%;
+	cursor: pointer;
+}

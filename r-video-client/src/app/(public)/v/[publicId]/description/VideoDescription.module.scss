@@ -1,0 +1,11 @@
+.article {
+	@apply text-gray-200 text-[0.9rem] leading-snug;
+
+	> p {
+		@apply py-2;
+	}
+
+	a {
+		@apply transition-colors hover:border-b-blue-400 border-b border-b-transparent text-blue-400;
+	}
+}
