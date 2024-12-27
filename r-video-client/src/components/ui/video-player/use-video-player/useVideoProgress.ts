@@ -17,7 +17,7 @@ export function useVideoProgress(playerRef: RefObject<HTMLCustomVideoElement | n
 		}
 
 		const handleLoadedMetadata = () => {
-			const { currentTime, originalTime, progress } = getVideoInfo(playerRef.current)
+			const { currentTime, originalTime, progress } = getVideoInfo(player)
 
 			if (!originalTime) {
 				return
@@ -28,7 +28,11 @@ export function useVideoProgress(playerRef: RefObject<HTMLCustomVideoElement | n
 			setProgress(progress)
 		}
 
-		player?.addEventListener('loadedmetadata', handleLoadedMetadata)
+		player.addEventListener('loadedmetadata', handleLoadedMetadata)
+
+		if (player.readyState >= 1) {
+			handleLoadedMetadata()
+		}
 
 		return () => {
 			player?.removeEventListener('loadedmetadata', handleLoadedMetadata)

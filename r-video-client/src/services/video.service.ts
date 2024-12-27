@@ -1,6 +1,5 @@
 import { axiosClassic } from '@/api/axios'
 
-import type { IMain } from '@/types/main.types'
 import type { ISingleVideoResponse, IVideo, IVideosPagination } from '@/types/video.types'
 
 class VideoService {
@@ -34,7 +33,11 @@ class VideoService {
 	}
 
 	getVideoGames() {
-		return axiosClassic.get<IMain>(`${this._VIDEOS}/games`)
+		return axiosClassic.get<IVideosPagination>(`${this._VIDEOS}/games`)
+	}
+
+	updateViews(publicId: string) {
+		return axiosClassic.put(`${this._VIDEOS}/update-views-count/${publicId}`)
 	}
 }
 

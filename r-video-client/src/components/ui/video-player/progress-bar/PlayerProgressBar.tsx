@@ -34,8 +34,7 @@ export function PlayerProgressBar({ currentTime, progress, duration, onSeek }: P
 				className='absolute top-0 left-0 h-1.5 rounded-lg'
 				style={{
 					width: `${progress}%`,
-					backgroundColor: COLORS.primary,
-					transition: 'width 0.2s ease'
+					backgroundColor: COLORS.primary
 				}}
 			/>
 
@@ -54,7 +53,7 @@ export function PlayerProgressBar({ currentTime, progress, duration, onSeek }: P
 			<input
 				type='range'
 				min={0}
-				max={duration}
+				max={duration || 1}
 				value={currentTime}
 				onChange={handleChange}
 				onMouseDown={() => setIsDragging(true)}

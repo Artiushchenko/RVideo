@@ -1,7 +1,14 @@
-import { type Dispatch, type SetStateAction, useEffect, useRef, useState } from 'react'
+import {
+	type Dispatch,
+	type RefObject,
+	type SetStateAction,
+	useEffect,
+	useRef,
+	useState
+} from 'react'
 
 type TypeOut<T extends HTMLElement> = {
-	ref: React.RefObject<T | null>
+	ref: RefObject<T | null>
 	isShow: boolean
 	setIsShow: Dispatch<SetStateAction<boolean>>
 }
