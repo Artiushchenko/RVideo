@@ -45,7 +45,7 @@ export function CommentItem({ comment, refetch }: Props) {
 					{getInitials(comment.user.name || 'Anonym')}
 				</div>
 			)}
-			<div>
+			<div className='w-full'>
 				<div className='flex items-center gap-3 mb-2'>
 					<Heading
 						className='mb-0'

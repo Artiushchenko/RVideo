@@ -13,8 +13,8 @@ interface Props {
 	error?: FieldError
 	className?: string
 	isImage?: boolean
-	aspectRation?: '16:9' | '1:1'
 	overlay?: string
+	sizePreview?: [number, number]
 }
 
 export function UploadField({
@@ -25,8 +25,8 @@ export function UploadField({
 	folder,
 	isImage = true,
 	value,
-	aspectRation = '1:1',
-	overlay
+	overlay,
+	sizePreview
 }: Props) {
 	const { uploadFile, isLoading } = useUpload({ onChange, folder })
 
@@ -62,9 +62,9 @@ export function UploadField({
 			{isImage && (
 				<ImagePreview
 					isLoading={isLoading}
-					aspectRation={aspectRation}
 					overlay={overlay}
 					value={value}
+					sizePreview={sizePreview}
 				/>
 			)}
 		</div>

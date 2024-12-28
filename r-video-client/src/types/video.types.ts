@@ -3,7 +3,6 @@ import type { EnumVideoPlayerQuality } from '@/ui/video-player/video-player.type
 import type { IChannel } from './channel.types'
 import type { IComment } from './comment.types'
 import type { IPagination } from './pagination.types'
-import type { ITag } from './tag.types'
 
 export interface IVideo {
 	id: string
@@ -15,11 +14,8 @@ export interface IVideo {
 	maxResolution: EnumVideoPlayerQuality
 	viewsCount: number
 	isPublic: boolean
-	channelId: string
-	createdAt: string
-	updateAt: string
 	channel: IChannel
-	tags: ITag[]
+	createdAt: string
 }
 
 export interface IFullVideo extends IVideo {

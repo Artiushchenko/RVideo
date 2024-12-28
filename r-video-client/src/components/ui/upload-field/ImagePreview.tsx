@@ -6,13 +6,11 @@ interface Props {
 	isLoading: boolean
 	value?: string
 	overlay?: string
-	aspectRation?: '16:9' | '1:1'
+	sizePreview?: [number, number]
 }
 
-export function ImagePreview({ isLoading, value, overlay, aspectRation }: Props) {
-	const isWideScreenRation = aspectRation === '16:9'
-	const width = isWideScreenRation ? 446 : 100
-	const height = isWideScreenRation ? 250 : 100
+export function ImagePreview({ isLoading, value, overlay, sizePreview = [100, 100] }: Props) {
+	const [width, height] = sizePreview
 
 	return (
 		<div className='mt-3'>
@@ -36,6 +34,7 @@ export function ImagePreview({ isLoading, value, overlay, aspectRation }: Props)
 								priority
 							/>
 						)}
+
 						<Image
 							alt='Uploaded file'
 							className='rounded-md'
