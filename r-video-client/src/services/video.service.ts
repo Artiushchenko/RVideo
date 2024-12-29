@@ -1,5 +1,6 @@
 import { axiosClassic } from '@/api/axios'
 
+import type { IPaginationParams } from '@/types/pagination.types'
 import type { ISingleVideoResponse, IVideo, IVideosPagination } from '@/types/video.types'
 
 class VideoService {
@@ -20,12 +21,19 @@ class VideoService {
 		return axiosClassic.get<ISingleVideoResponse>(`${this._VIDEOS}/by-publicId/${publicId}`)
 	}
 
-	getExploreVideos(userId?: string) {
-		return axiosClassic.get<IVideosPagination>(`${this._VIDEOS}/explore`, {
-			params: {
-				userId
-			}
+	async getExploreVideos(userId?: string, params?: IPaginationParams, excludeIds?: string[]) {
+		const excludeIdsString = excludeIds?.join(',') || ''
+		const { data } = await axiosClassic.get<IVideosPagination>(`${this._VIDEOS}/explore`, {
+			params: userId
+				? {
+						userId,
+						...params,
+						excludeIds: excludeIdsString
+					}
+				: params
 		})
+
+		return data
 	}
 
 	getTrendingVideos() {

@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { Heading } from '@/ui/Heading'
 import { VideoItem } from '@/ui/video-item/VideoItem'
 
-import { Explore } from './explore/Explore'
+import { ExploreSection } from './explore/ExploreSection'
 import { videoService } from '@/services/video.service'
 
 export const revalidate = 100
@@ -43,7 +43,7 @@ export default async function Home() {
 				</section>
 			)}
 
-			<Explore />
+			<ExploreSection />
 		</section>
 	)
 }

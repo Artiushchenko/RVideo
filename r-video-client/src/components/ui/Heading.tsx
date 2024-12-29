@@ -27,7 +27,12 @@ export function Heading({
 				className
 			)}
 		>
-			{Icon && <Icon className='text-primary' />}
+			{Icon && (
+				<Icon
+					className='text-primary'
+					size={isPageHeading ? 30 : 24}
+				/>
+			)}
 			{isH1 || isPageHeading ? (
 				<h1
 					className={twMerge(

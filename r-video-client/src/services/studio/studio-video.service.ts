@@ -1,23 +1,22 @@
 import { instance } from '@/api/axios'
 
+import type { IPaginationParams } from '@/types/pagination.types'
 import type { IVideoFormData } from '@/types/studio-video.types'
-import type { IVideo, IVideosPagination } from '@/types/video.types'
+import type { IStudioVideoResponse, IVideosPagination } from '@/types/video.types'
 
 class StudioVideoService {
 	private _STUDIO_VIDEOS = '/studio/videos'
 
-	getAll(searchTerm?: string | null, page?: number, limit?: number) {
-		return instance.get<IVideosPagination>(this._STUDIO_VIDEOS, {
-			params: {
-				searchTerm,
-				page,
-				limit
-			}
+	async getAll(params?: IPaginationParams) {
+		const data = await instance.get<IVideosPagination>(this._STUDIO_VIDEOS, {
+			params
 		})
+
+		return data.data
 	}
 
 	byId(id: string) {
-		return instance.get<IVideo>(`${this._STUDIO_VIDEOS}/${id}`)
+		return instance.get<IStudioVideoResponse>(`${this._STUDIO_VIDEOS}/${id}`)
 	}
 
 	create(dto: IVideoFormData) {
@@ -25,7 +24,7 @@ class StudioVideoService {
 	}
 
 	update(id: string, dto: IVideoFormData) {
-		return instance.post(`${this._STUDIO_VIDEOS}/${id}`, dto)
+		return instance.put(`${this._STUDIO_VIDEOS}/${id}`, dto)
 	}
 
 	delete(id: string) {
