@@ -1,9 +1,11 @@
+'use client'
+
+import dynamicNext from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { SubscribeButton } from '@/components/SubscribeButton'
-
 import { Heading } from '@/ui/Heading'
+import { SkeletonLoader } from '@/ui/SkeletonLoader'
 import { VerifiedBadge } from '@/ui/VerifiedBadge'
 
 import { PAGE } from '@/config/public-page.config'
@@ -11,6 +13,11 @@ import { PAGE } from '@/config/public-page.config'
 import { transformCount } from '@/utils/transform-count'
 
 import type { ISingleVideoResponse } from '@/types/video.types'
+
+const DynamicSubscribeButton = dynamicNext(
+	() => import('@/components/SubscribeButton').then(mod => mod.SubscribeButton),
+	{ ssr: false, loading: () => <SkeletonLoader className='w-36 h-10 rounded-md' /> }
+)
 
 export function VideoChannel({ video }: { video: ISingleVideoResponse }) {
 	return (
@@ -45,7 +52,7 @@ export function VideoChannel({ video }: { video: ISingleVideoResponse }) {
 				</div>
 			</div>
 
-			<SubscribeButton slug={video.channel.slug} />
+			<DynamicSubscribeButton slug={video.channel.slug} />
 		</div>
 	)
 }

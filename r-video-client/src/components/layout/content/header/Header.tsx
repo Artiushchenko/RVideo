@@ -1,3 +1,5 @@
+'use client'
+
 import dynamic from 'next/dynamic'
 
 import { SkeletonLoader } from '@/ui/SkeletonLoader'

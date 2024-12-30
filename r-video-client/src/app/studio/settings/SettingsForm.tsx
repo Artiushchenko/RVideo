@@ -1,13 +1,16 @@
 'use client'
 
-import { Controller } from 'react-hook-form'
+import dynamic from 'next/dynamic'
 
 import { Button } from '@/ui/button/Button'
 import { Field } from '@/ui/field/Field'
 import { Textarea } from '@/ui/field/Textarea'
-import { UploadField } from '@/ui/upload-field/UploadField'
 
 import { useSettings } from './useSettings'
+
+const DynamicSettingsMediaFields = dynamic(() =>
+	import('./SettingsMediaFields').then(mod => mod.SettingsMediaFields)
+)
 
 export function SettingsForm() {
 	const {
@@ -72,38 +75,7 @@ export function SettingsForm() {
 						/>
 					</div>
 
-					<div>
-						<Controller
-							control={control}
-							name='channel.avatarUrl'
-							render={({ field: { onChange, value }, fieldState: { error } }) => (
-								<UploadField
-									label='Avatar'
-									onChange={onChange}
-									value={value}
-									error={error}
-									folder='avatars'
-									className='mb-5'
-								/>
-							)}
-						/>
-
-						<Controller
-							control={control}
-							name='channel.bannerUrl'
-							render={({ field: { onChange, value }, fieldState: { error } }) => (
-								<UploadField
-									label='Banner'
-									onChange={onChange}
-									value={value}
-									error={error}
-									folder='banners'
-									sizePreview={[446, 250]}
-									overlay='/overlay.png'
-								/>
-							)}
-						/>
-					</div>
+					<DynamicSettingsMediaFields control={control} />
 				</div>
 
 				<div className='text-center mt-10'>

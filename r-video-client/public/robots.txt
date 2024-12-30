@@ -1,0 +1,25 @@
+User-Agent: Googlebot
+Disallow: /auth
+Disallow: /recover
+Disallow: *?
+Disallow: /docs/*
+Disallow: *utm_
+Disallow: *?query=
+Disallow: /media/*?PAGEN_1=
+Disallow: *?keyword=
+Disallow: *?sub
+
+Sitemap: https://r-video.com/sitemap.xml
+
+User-Agent: *
+Disallow: /auth
+Disallow: /recover
+Disallow: *?
+Disallow: /docs/*
+Disallow: *utm_
+Disallow: *?query=
+Disallow: /media/*?PAGEN_1=
+Disallow: *?keyword=
+Disallow: *?sub
+
+Sitemap: https://r-video.com/sitemap.xml

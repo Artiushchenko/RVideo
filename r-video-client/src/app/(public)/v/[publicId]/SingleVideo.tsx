@@ -1,18 +1,23 @@
 'use client'
 
 import cn from 'clsx'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
 
 import { Heading } from '@/ui/Heading'
 import { VideoPlayer } from '@/ui/video-player/VideoPlayer'
 
 import { SimilarVideos } from './SimilarVideos'
-import { Comments } from './comments/Comments'
-import { VideoDescription } from './description/VideoDescription'
 import { useUpdateViews } from './useUpdateViews'
 import { VideoActions } from './video-actions/VideoActions'
 import { VideoChannel } from './video-channel/VideoChannel'
 import type { ISingleVideoResponse } from '@/types/video.types'
+
+const DynamicComments = dynamic(() => import('./comments/Comments').then(mod => mod.Comments))
+
+const DynamicVideoDescription = dynamic(() =>
+	import('./description/VideoDescription').then(mod => mod.VideoDescription)
+)
 
 interface Props {
 	video: ISingleVideoResponse
@@ -57,9 +62,9 @@ export function SingleVideo({ video }: Props) {
 				</div>
 				<VideoChannel video={video} />
 
-				<VideoDescription description={video.description} />
+				<DynamicVideoDescription description={video.description} />
 
-				<Comments video={video} />
+				<DynamicComments video={video} />
 			</div>
 			{!!video.similarVideos.length && (
 				<div className={cn({ 'pt-[44.7rem]': isTheaterMode })}>

@@ -5,7 +5,6 @@ import * as m from 'framer-motion/m'
 import { X } from 'lucide-react'
 import type { RefObject } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 
 import { Heading } from '@/ui/Heading'
@@ -40,13 +39,16 @@ export function CreatePlaylist({ refetch, onClose, ref }: Props) {
 	const { mutate, isPending } = useMutation({
 		mutationKey: ['create a playlist'],
 		mutationFn: (data: IPlaylistData) => playlistService.createPlaylist(data),
-		onSuccess() {
+		async onSuccess() {
 			refetch()
 			reset()
 			onClose()
+
+			const { toast } = await import('react-hot-toast')
 			toast.success('Playlist successfully created')
 		},
-		onError() {
+		async onError() {
+			const { toast } = await import('react-hot-toast')
 			toast.error('Error creating playlist')
 		}
 	})

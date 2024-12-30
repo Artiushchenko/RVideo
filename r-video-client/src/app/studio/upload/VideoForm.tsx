@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { Controller, type UseFormReturn } from 'react-hook-form'
 
 import { Field } from '@/ui/field/Field'
@@ -9,6 +8,7 @@ import { UploadField } from '@/ui/upload-field/UploadField'
 import { stripHtmlWithBreak } from '@/utils/strip-html'
 
 import { UploadSkeleton } from './UploadSkeleton'
+import { VideoFormRightSide } from './VideoFormRightSide'
 import type { IVideoFormData } from '@/types/studio-video.types'
 
 interface Props {
@@ -87,28 +87,7 @@ export function VideoForm({
 						/>
 					</div>
 
-					<div>
-						<div className='bg-gray-700 rounded-md overflow-hidden'>
-							{watch('thumbnailUrl') ? (
-								<Image
-									alt='Uploaded thumbnail'
-									src={watch('thumbnailUrl')}
-									width={300}
-									height={170}
-									className='w-full'
-								/>
-							) : (
-								<div className='flex items-center justify-center font-medium text-sm uppercase w-[300] h-[170] bg-gray-900'>
-									No thumbnail yet
-								</div>
-							)}
-
-							<div className='text-sm p-2'>
-								<span className='block text-gray-400 text-[0.9rem] mb-0.5'>File name:</span>
-								<span>{watch('videoFileName')}</span>
-							</div>
-						</div>
-					</div>
+					<VideoFormRightSide watch={watch} />
 				</>
 			)}
 		</div>

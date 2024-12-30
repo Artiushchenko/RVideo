@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import dynamic from 'next/dynamic'
+import { forwardRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useForm } from 'react-hook-form'
 
@@ -10,23 +11,35 @@ import { SkeletonLoader } from '@/ui/SkeletonLoader'
 import { Button } from '@/ui/button/Button'
 import { Field } from '@/ui/field/Field'
 
+import { AuthFields } from './AuthFields'
+import { SwitchAuth } from './SwitchAuth'
 import { useAuthForm } from './useAuthForm'
 import type { IAuthForm } from '@/types/auth-form.types'
 
-import styles from './captcha.module.scss'
+const DynamicRecaptcha = dynamic(() => import('./Recaptcha').then(mod => mod.Recaptcha))
+
+const ForwardedRefRecaptcha = forwardRef<ReCAPTCHA>((props, ref) => (
+	<DynamicRecaptcha
+		{...props}
+		forwardedRef={ref}
+	/>
+))
+
+ForwardedRefRecaptcha.displayName = 'ForwardedRefRecaptcha'
 
 export function Auth() {
 	const [isLogin, setIsLogin] = useState(true)
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		watch,
-		reset
-	} = useForm<IAuthForm>({
+	const form = useForm<IAuthForm>({
 		mode: 'onChange'
 	})
 
+	const {
+		handleSubmit,
+		register,
+		watch,
+		formState: { errors },
+		reset
+	} = form
 	const { isLoading, onSubmit, recaptchaRef } = useAuthForm(isLogin ? 'login' : 'register', reset)
 
 	return (
@@ -35,48 +48,18 @@ export function Auth() {
 				<div className='text-center mb-1'>
 					<Logo />
 				</div>
-				<div className='flex justify-center mb-6'>
-					<button
-						type='button'
-						className={`px-4 py-2 font-semibold ${
-							isLogin ? 'text-primary border-b-2 border-primary' : 'text-gray-600'
-						}`}
-						onClick={() => setIsLogin(true)}
-					>
-						Log in
-					</button>
 
-					<button
-						type='button'
-						className={`px-4 py-2 font-semibold ${
-							!isLogin ? 'text-primary border-b-2 border-primary' : 'text-gray-600'
-						}`}
-						onClick={() => setIsLogin(false)}
-					>
-						Register
-					</button>
-				</div>
+				<SwitchAuth
+					isLogin={isLogin}
+					setIsLogin={setIsLogin}
+				/>
 
 				<form onSubmit={handleSubmit(onSubmit)}>
 					{isLoading ? (
 						<SkeletonLoader count={3} />
 					) : (
 						<>
-							<Field
-								label='E-mail'
-								type='email'
-								registration={register('email', { required: 'E-mail is required' })}
-								error={errors.email?.message}
-								placeholder='Enter e-mail'
-							/>
-
-							<Field
-								label='Password'
-								type='password'
-								registration={register('password', { required: 'Password is required' })}
-								error={errors.password?.message}
-								placeholder='Enter password'
-							/>
+							<AuthFields form={form} />
 
 							{!isLogin && (
 								<Field
@@ -91,13 +74,7 @@ export function Auth() {
 								/>
 							)}
 
-							<ReCAPTCHA
-								ref={recaptchaRef}
-								size='normal'
-								sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
-								theme='light'
-								className={styles.recaptcha}
-							/>
+							<ForwardedRefRecaptcha ref={recaptchaRef} />
 						</>
 					)}
 
